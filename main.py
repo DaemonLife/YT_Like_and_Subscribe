@@ -32,6 +32,7 @@ for account in accounts:
             yt_subscribe(finder)
             yt_like(finder)
 
+        yt_exit_account(finder)
         print(f'{login} - выполнено.')
 
     except:
