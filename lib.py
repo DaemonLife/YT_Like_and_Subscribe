@@ -82,7 +82,25 @@ def open_accounts():
     f.close()
     return acc_list
 
+def pro_send_keys(element, text):
+    t = 0
+    while t < 5:
+        try:
+            element.send_keys(text)
+            return None
+        except:
+            t += 1
+            sleep(1)
 
+def pro_click(element):
+    t = 0
+    while t < 5:
+        try:
+            element.click()
+            return None
+        except:
+            t += 1
+            sleep(1)
 
 def google_authorization(finder, login, password):
     driver = finder.driver
@@ -91,32 +109,32 @@ def google_authorization(finder, login, password):
     # вход в другой аккаунт
     try:
         el = "//*[contains(text(), 'Сменить аккаунт')]"
-        el = finder.element_by_xpath(el)
-        el.click()
+        el = finder.element_by_xpath(el, 6)
+        pro_click(el)
     except:
         pass
 
     # отправить почту | номер телефона
     el = finder.element_by_name('identifier', 5)
-    el.send_keys(login)
+    pro_send_keys(el, login)
     # кнопка Далее
-    el = finder.element_by_xpath('//*[@id="identifierNext"]/div/button')
-    sleep(random.uniform(0,1))
-    el.click()
+    el = finder.element_by_xpath('//*[@id="identifierNext"]/div/button', 5)
+    sleep(random.uniform(0.5,1))
+    pro_click(el)
 
     # отправить пароль
     el = finder.element_by_name('password', 5)
-    el.send_keys(password)
+    pro_send_keys(el, password)
     # кнопка Далее
-    el = finder.element_by_xpath('//*[@id="passwordNext"]/div/button')
-    sleep(random.uniform(0,1))
-    el.click()
+    el = finder.element_by_xpath('//*[@id="passwordNext"]/div/button', 5)
+    sleep(random.uniform(0.5,1))
+    pro_click(el)
 
     # блок срабатывает, если Гугл просит подтверждения аккаунта
     t = 0
     while t < 3: # ждем, не прогрузился ли следующий сайт
         if 'https://stackoverflow.com/' in driver.current_url:
-            print('Вход выполнен!')
+            print(f'{login} - вход выполнен!')
             break
         t += 1
         sleep(1)
@@ -126,26 +144,24 @@ def google_authorization(finder, login, password):
             # нажать кнопку подтвердить по почте
             el = '//ul/li[1]/div'
             el = finder.element_by_xpath(el, 5)
-            el.click()
+            pro_click(el)
             # отправка почты
             el = '//*[@id="knowledge-preregistered-email-response"]'
-            el = finder.element_by_xpath(el)
+            el = finder.element_by_xpath(el, 5)
             el.send_keys('janakovbaha@gmail.com') # почта для подтверждения
             el = '//*[@id="view_container"]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button'
-            el = finder.element_by_xpath(el)
-            sleep(random.uniform(1,3))
-            el.click()
-            sleep(random.uniform(1,2))
-            print('Аккаунт подтвержден, вход выполнен!')
+            el = finder.element_by_xpath(el, 5)
+            pro_click(el)
+            print(f'{login} - вход выполнен!')
         except:
-            print('Ошибка подтверждения аккаунта')
+            print(f'{login} - ошибка входа!')
         
 def yt_like(finder):
     # like button
     el = '//ytm-slim-video-metadata-renderer/div[2]/c3-material-button[1]/button'
     el = finder.element_by_xpath(el)
     try:
-        el.click()
+        pro_click(el)
     except:
         pass
     sleep(random.uniform(1,2))
@@ -155,7 +171,7 @@ def yt_subscribe(finder):
     el = '//ytm-subscribe-button-renderer/div/c3-material-button/button'
     el = finder.element_by_xpath(el)
     try:
-        el.click()
+        pro_click(el)
     except:
         pass
     sleep(random.uniform(1,2))
