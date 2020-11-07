@@ -4,8 +4,10 @@ from finder import Finder
 driver = driver_start()
 finder = Finder(driver)
 
-video_link = 'https://youtube.com/watch?v=lY3g3h0iP3A'
-# video_link = input('Введите ссылку на видео:\t')
+#video_link = 'https://www.youtube.com/watch?v=wufXF5YKR1M'
+video_link = input('Введите ссылку на видео: ')
+
+verification_email = input('Введите почту для подтверждения аккаунтов: ') # 'janakovbaha@gmail.com'
 
 accounts = open_accounts() 
 
@@ -13,11 +15,8 @@ print('\nНачало работы\n')
 
 for account in accounts:
     login, password = account.split(':')
-    # try:
-    google_authorization(finder, login, password)
-    # except:
-    #     print('Ошибка модуля авторизации, проверьте правильность логина и пароля в файле:\n', account)
-    #     continue
+  
+    google_authorization(finder, login, password, verification_email)
 
     try:
         sleep(2)
